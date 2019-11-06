@@ -77,4 +77,17 @@ router.delete('/:id', (req, res) => {
   });
 });
 
+
+//endpoint to see users post
+
+router.get('/:id/posts',(req,res) => {
+  db.select('posts.contents', 'users.username').from('users')
+  .join('posts', 'users.id', '=', 'posts.user_id')
+  .then(posts => {
+    res.status(200).json(posts)
+  })
+  .catch(err => {
+    res.status(500).json({ message: 'Failed to get users post' });
+  });
+})
 module.exports = router;
